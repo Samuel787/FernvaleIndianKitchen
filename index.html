@@ -596,61 +596,6 @@
             });
         </script>
 
-        <!-- <script>
-            document
-                .querySelector('form')
-                .addEventListener('submit', function (e) {
-                    e.preventDefault();
-
-                    const form = this;
-                    const submitButton = form.querySelector(
-                        'button[type="submit"]'
-                    );
-                    submitButton.disabled = true;
-
-                    const formData = new FormData();
-                    formData.append(
-                        'name',
-                        this.querySelector('[name="name"]').value
-                    );
-                    formData.append(
-                        'phone',
-                        this.querySelector('[name="phone"]').value
-                    );
-                    formData.append(
-                        'delivery_time',
-                        this.querySelector('[name="delivery_time"]').value
-                    );
-                    formData.append(
-                        'order_details',
-                        this.querySelector('[name="order_details"]').value
-                    );
-
-                    // Correct URL (removed the 's' from 'execs')
-                    const scriptURL =
-                        'https://script.google.com/macros/s/AKfycbwb73SknvttCSdBTaaV1ZYNA6TtSM3JkWUWZmb0-YHjSqEE9islTE71PCI6CPXTFq1nug/exec';
-
-                    fetch(scriptURL, {
-                        method: 'POST',
-                        mode: 'no-cors', // This is key for avoiding CORS issues
-                        body: formData,
-                    })
-                        .then((response) => {
-                            alert('Thank you! Your order has been submitted.');
-                            form.reset();
-                        })
-                        .catch((error) => {
-                            alert(
-                                'Error submitting the form. Please try again.'
-                            );
-                            console.error('Error:', error);
-                        })
-                        .finally(() => {
-                            submitButton.disabled = false;
-                        });
-                });
-        </script> -->
-
         <div class="loading-overlay" id="loadingOverlay">
             <div style="text-align: center">
                 <div class="loading-spinner"></div>
