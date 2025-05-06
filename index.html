@@ -16,6 +16,45 @@
         <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
         <link rel="stylesheet" href="css/tailwind.css" />
         <link rel="stylesheet" href="css/tooplate-antique-cafe.css" />
+
+        <style>
+            .loading-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 9999;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+                border: 5px solid #f3f3f3;
+                border-top: 5px solid #b99c6b; /* Using the gold color from your theme */
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            .loading-text {
+                color: #b99c6b;
+                margin-top: 20px;
+                font-size: 18px;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
     </head>
     <body>
         <!-- Intro -->
@@ -557,8 +596,7 @@
             });
         </script>
 
-        // ... existing code ...
-        <script>
+        <!-- <script>
             document
                 .querySelector('form')
                 .addEventListener('submit', function (e) {
@@ -608,6 +646,74 @@
                             console.error('Error:', error);
                         })
                         .finally(() => {
+                            submitButton.disabled = false;
+                        });
+                });
+        </script> -->
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div style="text-align: center">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Submitting your order...</div>
+            </div>
+        </div>
+
+        <script>
+            document
+                .querySelector('form')
+                .addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const form = this;
+                    const submitButton = form.querySelector(
+                        'button[type="submit"]'
+                    );
+                    const loadingOverlay =
+                        document.getElementById('loadingOverlay');
+
+                    // Show loading overlay
+                    loadingOverlay.style.display = 'flex';
+                    submitButton.disabled = true;
+
+                    const formData = new FormData();
+                    formData.append(
+                        'name',
+                        this.querySelector('[name="name"]').value
+                    );
+                    formData.append(
+                        'phone',
+                        this.querySelector('[name="phone"]').value
+                    );
+                    formData.append(
+                        'delivery_time',
+                        this.querySelector('[name="delivery_time"]').value
+                    );
+                    formData.append(
+                        'order_details',
+                        this.querySelector('[name="order_details"]').value
+                    );
+
+                    const scriptURL =
+                        'https://script.google.com/macros/s/AKfycbwb73SknvttCSdBTaaV1ZYNA6TtSM3JkWUWZmb0-YHjSqEE9islTE71PCI6CPXTFq1nug/exec';
+
+                    fetch(scriptURL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        body: formData,
+                    })
+                        .then((response) => {
+                            alert('Thank you! Your order has been submitted.');
+                            form.reset();
+                        })
+                        .catch((error) => {
+                            alert(
+                                'Error submitting the form. Please try again.'
+                            );
+                            console.error('Error:', error);
+                        })
+                        .finally(() => {
+                            // Hide loading overlay and re-enable submit button
+                            loadingOverlay.style.display = 'none';
                             submitButton.disabled = false;
                         });
                 });
